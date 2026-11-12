@@ -118,5 +118,6 @@ export interface Settings {
   outputDeviceId: string
   volume: number
   clickOffsetMs: number // 사용자 미세 싱크 보정
+  focusAmount: number // 악기 강조 세기 0..1
   keepCopies: boolean // 음원 사본을 로컬(IndexedDB)에 보관 → 재실행 시 파일 재선택 불필요(모바일 권장)
 }

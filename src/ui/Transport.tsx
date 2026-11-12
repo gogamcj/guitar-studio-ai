@@ -1,6 +1,7 @@
 import { engine } from '../engine/AudioEngine'
 import { fmtTime } from '../lib/music'
-import { nextTrack, seek, setClickOn, setLoop, setLoopPoint, setMusicMute, setPitch, setRate, togglePlay, updateSettings, useApp } from '../store/app'
+import { FOCUS_MODES } from '../engine/focus'
+import { nextTrack, seek, setClickOn, setFocus, setFocusAmount, setLoop, setLoopPoint, setMusicMute, setPitch, setRate, togglePlay, updateSettings, useApp } from '../store/app'
 import { useEngine, usePosition } from './hooks'
 import { IMetronome, INext, IPause, IPlay, IPrev, IRepeat, IVolume } from './icons'
 
@@ -17,6 +18,8 @@ export function Transport() {
   const clickOn = useApp((s) => s.clickOn)
   const musicMute = useApp((s) => s.musicMute)
   const volume = useApp((s) => s.settings.volume)
+  const focus = useApp((s) => s.focus)
+  const focusAmount = useApp((s) => s.settings.focusAmount)
   const hasBeats = useApp((s) => !!s.analysis?.beats.length)
   const playing = engine.playing
   const countIn = engine.countIn
@@ -67,6 +70,20 @@ export function Transport() {
             <input type="range" min={0} max={1} step={0.01} value={volume} onChange={(e) => updateSettings({ volume: +e.target.value })} className="w-24" aria-label="볼륨" />
           </div>
         </div>
+      </div>
+      {/* 악기 강조 (주파수 대역·스테레오 위치 기반, 실제 분리 아님) */}
+      <div className="flex flex-wrap items-center justify-center gap-1.5 px-3 sm:px-4 pb-2" role="group" aria-label="악기 강조">
+        <span className="label mr-1" title="실제 음원 분리가 아니라, 악기가 주로 차지하는 음역대와 좌우 위치를 강조합니다">악기 강조</span>
+        <button className={`chip ${focus === 'off' ? 'chip-on' : ''}`} onClick={() => setFocus('off')} disabled={!hasTrack} aria-pressed={focus === 'off'}>원음</button>
+        {FOCUS_MODES.map((f) => (
+          <button key={f.id} className={`chip ${focus === f.id ? 'chip-on' : ''}`} onClick={() => setFocus(focus === f.id ? 'off' : f.id)} disabled={!hasTrack} title={f.hint} aria-pressed={focus === f.id}>{f.label}</button>
+        ))}
+        {focus !== 'off' && (
+          <label className="flex items-center gap-1.5 ml-1">
+            <span className="label">세기</span>
+            <input type="range" min={0.1} max={1} step={0.05} value={focusAmount} onChange={(e) => setFocusAmount(+e.target.value)} className="w-20" aria-label="강조 세기" />
+          </label>
+        )}
       </div>
     </div>
   )

@@ -241,6 +241,56 @@ await ctx.setOffline(false)
 results.push({ test: '오프라인 실행', ok: offlineOk, detail: offDetail })
 log(results.at(-1))
 
+// 7.5) 악기 강조: 실제 UI 버튼을 눌러 앱 출력을 녹음 → 대역별 에너지 비율 비교
+await page.reload(); await page.waitForFunction(() => window.__gs && window.__gs.getState().ready)
+await loadFile('real_pop_120_G_detune+35_melody_noise.wav'); await page.waitForFunction(() => { const s = window.__gs.getState(); return !s.loading && s.duration > 0 })
+async function recFocus(label) {
+  if (label) await page.getByRole('group', { name: '악기 강조' }).getByRole('button', { name: label, exact: true }).click()
+  await page.waitForTimeout(150)
+  return page.evaluate(async () => {
+    const g = window.__gs, e = g.engine, ctx = e.ctx
+    if (!window.__rec) {
+      const code = `class R extends AudioWorkletProcessor{constructor(){super();this.on=false;this.port.onmessage=(m)=>{this.on=m.data}}process(i){if(this.on&&i[0]&&i[0][0])this.port.postMessage(i[0][0].slice(0));return true}}registerProcessor('gs-rec',R)`
+      await ctx.audioWorklet.addModule(URL.createObjectURL(new Blob([code], { type: 'application/javascript' })))
+      const rec = new AudioWorkletNode(ctx, 'gs-rec', { numberOfInputs: 1, numberOfOutputs: 1, channelCount: 1, channelCountMode: 'explicit' })
+      const z = ctx.createGain(); z.gain.value = 0
+      e.node.connect(rec); rec.connect(z); z.connect(ctx.destination)
+      window.__rec = rec
+    }
+    const rec = window.__rec, chunks = []
+    rec.port.onmessage = (m) => chunks.push(m.data)
+    g.setClickOn(false); g.seek(4)
+    await new Promise((r) => setTimeout(r, 200))
+    rec.port.postMessage(true); g.play()
+    await new Promise((r) => setTimeout(r, 3000))
+    g.pause(); rec.port.postMessage(false)
+    await new Promise((r) => setTimeout(r, 150))
+    const n = chunks.reduce((s, c) => s + c.length, 0), x = new Float32Array(n); let o = 0
+    for (const c of chunks) { x.set(c, o); o += c.length }
+    // 1차 IIR 로 대역 분리: 저역(<200Hz), 고역(>5kHz)
+    const sr = ctx.sampleRate, lp = (f) => { const a = Math.exp(-2 * Math.PI * f / sr); let y = 0; return (v) => (y = (1 - a) * v + a * y) }
+    const l1 = lp(200), l2 = lp(200), h1 = lp(5000), h2 = lp(5000)
+    let eAll = 0, eLow = 0, eHigh = 0
+    for (let i = 0; i < n; i++) { const v = x[i]; const lo = l2(l1(v)); const hi = v - h2(h1(v)); eAll += v * v; eLow += lo * lo; eHigh += hi * hi }
+    return { low: eLow / eAll, high: eHigh / eAll, mid: Math.max(0, 1 - (eLow + eHigh) / eAll), rms: Math.sqrt(eAll / n) }
+  })
+}
+const fOff = await recFocus(null)
+const fBass = await recFocus('베이스')
+const fDrums = await recFocus('드럼')
+const fVocal = await recFocus('보컬')
+const fOff2 = await recFocus('원음')
+const db = (a, b) => (10 * Math.log10(a / b)).toFixed(1)
+const lr = (f) => f.low / (f.mid + f.high)
+results.push({ test: '악기 강조: 베이스 버튼 → 저음 비중 증가', ok: lr(fBass) > lr(fOff) * 2, detail: `저역 비중 ${(fOff.low * 100).toFixed(1)}% → ${(fBass.low * 100).toFixed(1)}% (저역/나머지 비 ${db(lr(fBass), lr(fOff))}dB)` })
+results.push({ test: '악기 강조: 드럼 버튼 → 고음(심벌) 비중 증가', ok: fDrums.high > fOff.high * 1.5, detail: `고역 비중 ${(fOff.high * 100).toFixed(2)}% → ${(fDrums.high * 100).toFixed(2)}% (${db(fDrums.high, fOff.high)}dB)` })
+results.push({ test: '악기 강조: 보컬 버튼 → 저음 감소, 중음 유지', ok: fVocal.low < fOff.low * 0.5 && fVocal.mid > fOff.mid, detail: `저역 ${(fOff.low * 100).toFixed(1)}% → ${(fVocal.low * 100).toFixed(1)}%, 중역 ${(fOff.mid * 100).toFixed(1)}% → ${(fVocal.mid * 100).toFixed(1)}%` })
+results.push({ test: '악기 강조: 원음 버튼 → 원래대로', ok: Math.abs(fOff2.low - fOff.low) < 0.02 && Math.abs(fOff2.rms / fOff.rms - 1) < 0.05, detail: `저역 ${(fOff2.low * 100).toFixed(1)}%, 음량 비 ${(fOff2.rms / fOff.rms).toFixed(3)}` })
+results.slice(-4).forEach((r) => log(r))
+await page.getByRole('group', { name: '악기 강조' }).getByRole('button', { name: '기타', exact: true }).click()
+await page.screenshot({ path: `${OUT}/focus-guitar.png` })
+await page.getByRole('group', { name: '악기 강조' }).getByRole('button', { name: '원음', exact: true }).click()
+
 // 8) 화면: 라이트 모드, 카피 모드, 리포트, 모바일
 await page.reload(); await page.waitForFunction(() => window.__gs && window.__gs.getState().ready)
 await loadFile('pop_120_G.mp3'); await waitAnalysis()
