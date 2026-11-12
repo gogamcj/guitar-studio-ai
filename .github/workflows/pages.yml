@@ -1,0 +1,27 @@
+# 휴대폰(PWA) 설치용: 앱 화면 파일(dist)만 GitHub Pages 에 올린다. 음악 파일·분석 데이터는 올라가지 않는다.
+# 한 번만: 저장소 Settings → Pages → Source 를 "GitHub Actions" 로 설정.
+name: pages
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency: { group: pages, cancel-in-progress: true }
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: { name: github-pages, url: '${{ steps.d.outputs.page_url }}' }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - run: npm run build
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with: { path: dist }
+      - id: d
+        uses: actions/deploy-pages@v4
