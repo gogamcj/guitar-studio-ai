@@ -1,3 +1,4 @@
+import type { FocusMode } from './focus'
 import workletUrl from './player.worklet.ts?worker&url'
 import { synthClicks } from './clickSounds'
 import type { ClickSound } from '../types'
@@ -108,7 +109,7 @@ export class AudioEngine {
   }
   pause() { this.node?.port.postMessage({ type: 'pause' }); this.playing = false; this.emit() }
   seek(t: number) { this.node?.port.postMessage({ type: 'seek', t }); this.lastSrc = t; this.lastCtxTime = this.ctx?.currentTime ?? 0; this.emit() }
-  setParams(p: { volume?: number; rate?: number; pitch?: number; musicMute?: boolean; clickOn?: boolean; clickGain?: number; clickOffset?: number }) {
+  setParams(p: { volume?: number; rate?: number; pitch?: number; musicMute?: boolean; clickOn?: boolean; clickGain?: number; clickOffset?: number; focusMode?: FocusMode; focusAmount?: number }) {
     if (p.rate !== undefined) this.rate = p.rate
     this.node?.port.postMessage({ type: 'params', ...p })
   }

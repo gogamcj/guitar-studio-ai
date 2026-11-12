@@ -1,4 +1,5 @@
 import { useSyncExternalStore } from 'react'
+import type { FocusMode } from '../engine/focus'
 import type { Analysis, Beat, ChordSegment, LoopRegion, Marker, Settings, TrackMeta } from '../types'
 import { engine, computePeaks, downmix } from '../engine/AudioEngine'
 import { buildClickEvents, gridBeats } from '../engine/clickEvents'
@@ -26,6 +27,7 @@ export const DEFAULT_SETTINGS: Settings = {
   outputDeviceId: '',
   volume: 0.9,
   clickOffsetMs: 0,
+  focusAmount: 0.8,
   keepCopies: !hasFSAccess() && !isTauri(),
 }
 
@@ -50,6 +52,7 @@ export interface State {
   pitch: number
   clickOn: boolean
   musicMute: boolean
+  focus: FocusMode
   loop: { enabled: boolean; a: number; b: number; repeat: number }
   loops: LoopRegion[]
   markers: Marker[]
@@ -80,6 +83,7 @@ let state: State = {
   pitch: 0,
   clickOn: false,
   musicMute: false,
+  focus: 'off',
   loop: { enabled: false, a: 0, b: 0, repeat: 0 },
   loops: [],
   markers: [],
@@ -262,7 +266,7 @@ export async function selectTrack(id: string, opts: { autoplay?: boolean; restor
     setState({ loading: false, duration: buffer.duration, peaks, peaksPerSec: peaks.length / 2 / buffer.duration, analysis: analysis || null, loops, markers, tracks: [...getState().tracks] })
     setRate(s.defaultRate)
     setPitch(s.defaultPitch)
-    engine.setParams({ volume: s.volume, clickGain: s.clickVolume, clickOffset: s.clickOffsetMs / 1000, clickOn: getState().clickOn, musicMute: getState().musicMute })
+    engine.setParams({ volume: s.volume, clickGain: s.clickVolume, clickOffset: s.clickOffsetMs / 1000, clickOn: getState().clickOn, musicMute: getState().musicMute, focusMode: getState().focus, focusAmount: s.focusAmount })
     pushClicks()
     if (opts.restore && t.lastPosition && t.lastPosition < buffer.duration - 1) engine.seek(t.lastPosition)
     if (!analysis && s.autoAnalyze) runAnalysis()
@@ -362,6 +366,8 @@ export function setPitch(p: number) {
 }
 export function setClickOn(on: boolean) { setState({ clickOn: on }); engine.setParams({ clickOn: on }) }
 export function setMusicMute(m: boolean) { setState({ musicMute: m }); engine.setParams({ musicMute: m }) }
+export function setFocus(mode: FocusMode) { setState({ focus: mode }); engine.setParams({ focusMode: mode, focusAmount: getState().settings.focusAmount }) }
+export function setFocusAmount(a: number) { updateSettings({ focusAmount: a }); engine.setParams({ focusAmount: a }) }
 
 export function setLoop(p: Partial<State['loop']>) {
   const loop = { ...getState().loop, ...p }

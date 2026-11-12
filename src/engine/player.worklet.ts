@@ -12,6 +12,7 @@ declare class AudioWorkletProcessor {
 }
 
 import { WSOLA } from './wsola'
+import { Focus } from './focus'
 
 const BLOCK_REPORT = 6 // 6블록(768샘플)마다 위치 보고
 
@@ -51,6 +52,8 @@ class PlayerProcessor extends AudioWorkletProcessor {
   countInIdx = 0
   blocks = 0
   tmp = { l: 0, r: 0, s: 0 }
+  focus = new Focus(sampleRate)
+  fo = { l: 0, r: 0 }
 
   constructor() {
     super()
@@ -102,6 +105,7 @@ class PlayerProcessor extends AudioWorkletProcessor {
       case 'params':
         if (m.volume !== undefined) this.volume = m.volume
         if (m.musicMute !== undefined) this.musicMute = m.musicMute
+        if (m.focusMode !== undefined || m.focusAmount !== undefined) this.focus.set(m.focusMode ?? this.focus.mode, m.focusAmount ?? this.focus.amount)
         if (m.clickOn !== undefined) this.clickOn = m.clickOn
         if (m.clickGain !== undefined) this.clickGain = m.clickGain
         if (m.clickOffset !== undefined) { this.clickOffset = m.clickOffset; this.resyncEvents() }
@@ -235,6 +239,9 @@ class PlayerProcessor extends AudioWorkletProcessor {
         this.srcPos = p
         this.pos = p + 1
       }
+      // 악기 강조 필터
+      this.focus.process(l, r, this.fo)
+      l = this.fo.l; r = this.fo.r
       // A-B 반복
       let g = this.volume
       if (this.loopOn) {
