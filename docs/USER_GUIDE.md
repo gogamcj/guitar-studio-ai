@@ -22,12 +22,12 @@ Guitar Studio AI는 기타 연주자를 위한 **로컬 음악 분석 플레이�
 2. 서명/공증되지 않은 빌드는 처음 열 때 차단될 수 있습니다: Finder 에서 앱을 **Control+클릭 → 열기**.
 
 ### Android 스마트폰·태블릿 (PWA)
-1. Chrome 으로 앱 주소를 엽니다(아래 "PWA 배포" 참고).
+1. Chrome 으로 https://gogamcj.github.io/guitar-studio-ai/ 를 엽니다.
 2. 메뉴(⋮) → **앱 설치** 또는 **홈 화면에 추가**.
 3. 설치 후에는 인터넷 없이도 실행됩니다.
 
 ### iPhone / iPad (PWA)
-1. **Safari** 로 앱 주소를 엽니다.
+1. **Safari** 로 https://gogamcj.github.io/guitar-studio-ai/ 를 엽니다.
 2. 공유 버튼 → **홈 화면에 추가**.
 3. 홈 화면 아이콘으로 실행하면 전체 화면 앱처럼 동작하고 오프라인에서도 열립니다.
 
