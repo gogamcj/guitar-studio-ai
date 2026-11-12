@@ -1,0 +1,1 @@
+{"loadMs":3179,"totalMs":20956,"analyzeMs":17777,"mainThreadMaxLagMs":0,"dur":1251.53,"bpm":119.99,"key":{"tonic":7,"mode":"major"},"beats":2451,"p":1233.4790884353743,"mem":242}

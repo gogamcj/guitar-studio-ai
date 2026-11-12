@@ -1,0 +1,12 @@
+pop_120_G 120 0.996 -0.2 4 True G Major 99.8 99.8 932
+ballad_92.5_Am 92.5 0.995 0.1 4 True A Minor 99.9 99.9 880
+waltz_150_C 150 0.996 -0.4 3 True C Major 99.8 99.8 669
+slash_76_D 76 0.996 0.7 4 True D Major 100 100 1311
+fast_174_Em 174 0.997 -0.3 4 True E Minor 99.9 99.9 923
+jazzish_110_F 110 0.996 0 4 True F Major 99.9 99.9 726
+halfbar_100_A 100 0.996 0 4 True A Major 99.6 99.6 799
+tempo_change_100to112_C 112 0.996 0 4 True C Major 99.9 99.9 897
+real_pop_120_G_detune+35_melody_noise 120 0.988 7.7 4 True G Major 99.8 99.8 908
+real_ballad_92.5_Am_detune-20_melody 92.5 0.995 6.5 4 True A Minor 99.7 99.7 839
+real_jazz_110_F_melody_noise 110 0.988 7.8 4 True F Major 99.6 96.5 929
+real_slash_76_D_A432_melody 76 0.992 7.9 4 True D Major 99.8 90.5 1335

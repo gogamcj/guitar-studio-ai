@@ -1,0 +1,34 @@
+PASS  load+analyze pop_120_G.mp3 — 분석 1391ms · BPM 120 (정답 120) · 4박 (정답 4) · Key G major (정답 G major) · 코드 G D Em C G D Em C (정답 G D Em C)
+PASS  load+analyze ballad_92.5_Am.mp3 — 분석 1109ms · BPM 92.5 (정답 92.5) · 4박 (정답 4) · Key A minor (정답 A minor) · 코드 Am F C G Am F C G (정답 Am F C G)
+PASS  load+analyze waltz_150_C.flac — 분석 794ms · BPM 150 (정답 150) · 3박 (정답 3) · Key C major (정답 C major) · 코드 C G7 Am F G C G7 Am (정답 C C G7 G7 Am Am F G)
+PASS  load+analyze slash_76_D.m4a — 분석 1520ms · BPM 76 (정답 76) · 4박 (정답 4) · Key D major (정답 D major) · 코드 D A/C# Bm G Em7 A7 D A/C# (정답 D A/C# Bm G Em7 A7 D D)
+PASS  load+analyze fast_174_Em.ogg — 분석 1027ms · BPM 174 (정답 174) · 4박 (정답 4) · Key E minor (정답 E minor) · 코드 Em C G D Em C G D (정답 Em C G D)
+PASS  load+analyze jazzish_110_F.aac — 분석 1211ms · BPM 110 (정답 110) · 4박 (정답 4) · Key F major (정답 F major) · 코드 Fmaj7 Dm7 Gm7 C7 Am7 Dm7 Bbmaj7 C7 (정답 Fmaj7 Dm7 Gm7 C7 Am7 Dm7 Bbmaj7 C7)
+PASS  load+analyze halfbar_100_A.mp3 — 분석 1114ms · BPM 100 (정답 100) · 4박 (정답 4) · Key A major (정답 A major) · 코드 A E F#m D A E D E (정답 A|E F#m|D A|E D|E)
+PASS  load+analyze tempo_change_100to112_C.mp3 — 분석 1044ms · BPM 112 (정답 variable) · 4박 (정답 4) · Key C major (정답 C major) · 코드 C Am F G C Am F G (정답 C Am F G)
+PASS  재생/일시정지 — 10초에서 2초 재생 후 위치 11.97s, 일시정지 후 변화 0.000s
+PASS  클릭 싱크 rate=1 pitch=0 — 클릭 13개/틱 13개 매칭 13 · 평균 오차 -1.00ms · 최대 2.99ms
+PASS  배속 템포 rate=1 pitch=0 — 틱 간격 600.1ms (기대 600.0ms)
+PASS  클릭 싱크 rate=0.7 pitch=0 — 클릭 9개/틱 9개 매칭 9 · 평균 오차 1.44ms · 최대 4.49ms
+PASS  배속 템포 rate=0.7 pitch=0 — 틱 간격 857.1ms (기대 857.1ms)
+PASS  클릭 싱크 rate=0.5 pitch=0 — 클릭 7개/틱 7개 매칭 7 · 평균 오차 4.49ms · 최대 9.48ms
+PASS  배속 템포 rate=0.5 pitch=0 — 틱 간격 1198.3ms (기대 1200.0ms)
+PASS  클릭 싱크 rate=1.5 pitch=0 — 클릭 20개/틱 20개 매칭 20 · 평균 오차 1.60ms · 최대 4.49ms
+PASS  배속 템포 rate=1.5 pitch=0 — 틱 간격 400.1ms (기대 400.0ms)
+PASS  클릭 싱크 rate=1 pitch=3 — 클릭 13개/틱 13개 매칭 13 · 평균 오차 1.30ms · 최대 3.49ms
+PASS  배속 템포 rate=1 pitch=3 — 틱 간격 600.1ms (기대 600.0ms)
+PASS  클릭 싱크 rate=0.8 pitch=-2 — 클릭 11개/틱 11개 매칭 11 · 평균 오차 1.09ms · 최대 2.99ms
+PASS  배속 템포 rate=0.8 pitch=-2 — 틱 간격 749.3ms (기대 750.0ms)
+PASS  음정 rate=0.5 pitch=0 — 측정 440.0Hz (기대 440.0Hz)
+PASS  음정 rate=0.7 pitch=0 — 측정 439.0Hz (기대 440.0Hz)
+PASS  음정 rate=1.5 pitch=0 — 측정 439.0Hz (기대 440.0Hz)
+PASS  음정 rate=1 pitch=12 — 측정 880.0Hz (기대 880.0Hz)
+PASS  음정 rate=1 pitch=-5 — 측정 330.0Hz (기대 329.6Hz)
+PASS  음정 rate=0.7 pitch=3 — 측정 523.0Hz (기대 523.3Hz)
+PASS  A-B 무한 반복 — 6초 동안 위치 범위 1.97~3.96s
+PASS  A-B 반복 횟수(2회) — 2회 반복 후 구간을 벗어나 진행: 위치 4.46s, 반복 해제=true
+PASS  앱 재실행 후 데이터 복원 — 곡 10개, 메모="카포 2", 즐겨찾기=true, 마지막 위치=33.3s, 파일 재선택 필요=true, 수정 코드 D, 구간 테스트 구간
+PASS  오프라인 실행 — 네트워크 차단 상태에서 앱 실행·라이브러리 로드 성공
+PASS  mobile 화면 대응 — 390px 에서 가로 넘침 없음
+PASS  tablet 화면 대응 — 820px 에서 가로 넘침 없음
+PASS  콘솔 오류 없음 — 없음

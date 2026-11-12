@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: 245 245 247;
+  --panel: 255 255 255;
+  --panel2: 236 236 240;
+  --line: 210 210 215;
+  --fg: 20 20 22;
+  --mute: 110 110 118;
+  --accent: 255 122 26;
+  --accent2: 10 132 255;
+  --warn: 255 69 58;
+  color-scheme: light;
+}
+:root.dark {
+  --bg: 11 11 13;
+  --panel: 22 22 25;
+  --panel2: 34 34 38;
+  --line: 52 52 58;
+  --fg: 242 242 247;
+  --mute: 142 142 150;
+  color-scheme: dark;
+}
+:root[data-accent='blue'] { --accent: 10 132 255; --accent2: 255 122 26; }
+
+html, body, #root { height: 100%; }
+body {
+  @apply bg-bg text-fg font-sans antialiased;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+}
+button { touch-action: manipulation; }
+.tabular { font-variant-numeric: tabular-nums; }
+
+.btn { @apply inline-flex items-center justify-center gap-1.5 rounded-lg px-3 h-9 text-sm font-medium bg-panel2 hover:bg-line/70 active:scale-[.98] transition disabled:opacity-40 disabled:pointer-events-none; }
+.btn-accent { @apply bg-accent text-white hover:bg-accent/90; }
+.btn-ghost { @apply bg-transparent hover:bg-panel2; }
+.btn-icon { @apply w-9 px-0; }
+.chip { @apply inline-flex items-center rounded-md px-2 h-7 text-xs font-medium bg-panel2 hover:bg-line/70 transition; }
+.chip-on { @apply bg-accent text-white hover:bg-accent/90; }
+.card { @apply bg-panel rounded-2xl border border-line/60; }
+.label { @apply text-[11px] uppercase tracking-wider text-mute font-semibold; }
+.input { @apply h-9 rounded-lg bg-panel2 border border-line/60 px-2.5 text-sm outline-none focus:border-accent; }
+input[type='range'] { accent-color: rgb(var(--accent)); }
+select.input { @apply pr-7; }
+
+.scrollbar-thin::-webkit-scrollbar { height: 6px; width: 6px; }
+.scrollbar-thin::-webkit-scrollbar-thumb { background: rgb(var(--line)); border-radius: 3px; }
+
+.safe-bottom { padding-bottom: max(env(safe-area-inset-bottom), 0px); }
+.safe-top { padding-top: env(safe-area-inset-top); }
