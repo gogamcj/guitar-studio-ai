@@ -86,6 +86,19 @@ describe('악기 강조 필터', () => {
     })
   }
 
+  it('드럼 모드: 저음(킥)이 곡 전체에서 과하게 커지지 않음', () => {
+    const mix = stem()
+    for (const n of names) for (let i = 0; i < N; i++) { mix.L[i] += stems[n].L[i]; mix.R[i] += stems[n].R[i] }
+    const lowShare = (s: Stem) => {
+      const a = Math.exp(-2 * Math.PI * 150 / SR); let y1 = 0, y2 = 0, el = 0, ea = 0
+      for (let i = 0; i < N; i++) { const v = (s.L[i] + s.R[i]) / 2; y1 = (1 - a) * v + a * y1; y2 = (1 - a) * y1 + a * y2; if (i > SR) { el += y2 * y2; ea += v * v } }
+      return el / ea
+    }
+    const before = lowShare(mix), after = lowShare(run('drums', mix))
+    console.log(`[focus] 드럼 모드 저역(<150Hz) 비중 ${(before * 100).toFixed(1)}% → ${(after * 100).toFixed(1)}%`)
+    expect(after).toBeLessThan(before * 1.3)
+  })
+
   it('끄기(원음)는 신호를 바꾸지 않음', () => {
     const o = run('off', stems.guitar)
     let d = 0

@@ -64,7 +64,8 @@ export async function exportBackup() {
   const [tracks, analyses, loops, markers] = await Promise.all([db.all('tracks'), db.all('analyses'), db.all('loops'), db.all('markers')])
   const settings = await loadSettings()
   const session = await db.get('kv', 'session')
-  return { app: 'guitar-studio-ai', format: 1, exportedAt: new Date().toISOString(), tracks, analyses, loops, markers, settings, session }
+  const youtube = await db.get('kv', 'youtube')
+  return { app: 'guitar-studio-ai', format: 1, exportedAt: new Date().toISOString(), tracks, analyses, loops, markers, settings, session, youtube }
 }
 
 export async function importBackup(data: any) {
@@ -74,5 +75,6 @@ export async function importBackup(data: any) {
   for (const l of data.loops || []) await db.put('loops', l)
   for (const m of data.markers || []) await db.put('markers', m)
   if (data.settings) await saveSettings(data.settings)
+  if (Array.isArray(data.youtube)) await db.put('kv', data.youtube, 'youtube')
   return { tracks: (data.tracks || []).length, analyses: (data.analyses || []).length }
 }

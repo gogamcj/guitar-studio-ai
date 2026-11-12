@@ -8,7 +8,7 @@ import { fileFromHandle, hasFSAccess, isTauri, pickFolderFSAccess, pickWithFSAcc
 import AnalysisWorker from '../analysis/worker.ts?worker'
 import { chordLabel, parseChord, transposePc, useFlats } from '../lib/music'
 
-export type Tab = 'player' | 'copy' | 'report' | 'library' | 'settings'
+export type Tab = 'player' | 'copy' | 'report' | 'youtube' | 'library' | 'settings'
 
 export const DEFAULT_SETTINGS: Settings = {
   theme: 'dark',
