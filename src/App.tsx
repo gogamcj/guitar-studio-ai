@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { YouTubeView } from './ui/YouTubeView'
 import { addFiles, getState, init, nextTrack, persistSession, seek, setClickOn, setLoop, setLoopPoint, setState, togglePlay, useApp } from './store/app'
 import { engine } from './engine/AudioEngine'
 import { Header, MobileTabs } from './ui/Header'
@@ -18,13 +19,14 @@ export default function App() {
   const [dragOver, setDragOver] = useState(false)
 
   useEffect(() => { init() }, [])
-  useEffect(() => { persistSession() }, [tab])
+  useEffect(() => { persistSession(); if (tab === 'youtube' && engine.playing) togglePlay() }, [tab])
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const el = e.target as HTMLElement
       if (el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT' || el.isContentEditable)) return
       if (e.metaKey || e.ctrlKey || e.altKey) return
       const s = getState()
+      if (s.tab === 'youtube') return // YouTube 탭에서는 내 파일 재생 단축키를 쓰지 않음
       switch (e.key) {
         case ' ': e.preventDefault(); togglePlay(); break
         case 'ArrowLeft': seek(engine.position - (e.shiftKey ? 1 : 5)); break
@@ -73,12 +75,13 @@ export default function App() {
             {tab === 'player' && <PlayerView />}
             {tab === 'copy' && <CopyView />}
             {tab === 'report' && <ReportView />}
+            {tab === 'youtube' && <YouTubeView />}
             {tab === 'library' && <LibraryView />}
             {tab === 'settings' && <SettingsView />}
           </div>
         </main>
       </div>
-      <Transport />
+      {tab !== 'youtube' && <Transport />}
       <MobileTabs />
       {dragOver && <div className="fixed inset-0 z-40 bg-accent/10 border-4 border-dashed border-accent pointer-events-none grid place-items-center text-xl font-semibold">여기에 음악 파일을 놓으세요</div>}
       {toastMsg && <div className="fixed bottom-36 left-1/2 -translate-x-1/2 z-50 bg-fg text-bg text-sm px-4 py-2 rounded-full shadow-lg">{toastMsg}</div>}

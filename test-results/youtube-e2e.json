@@ -1,0 +1,77 @@
+[
+  {
+    "test": "다른 탭에서는 YouTube 에 접속하지 않음",
+    "ok": true,
+    "detail": "요청 0건"
+  },
+  {
+    "test": "YouTube 탭에서 하단 파일 재생바 숨김",
+    "ok": true,
+    "detail": "숨김"
+  },
+  {
+    "test": "잘못된 링크 안내",
+    "ok": true,
+    "detail": "YouTube 링크를 인식할 수 없습니다. 예: https://www.y"
+  },
+  {
+    "test": "링크로 영상 불러오기 (시작 시각 t=30 반영)",
+    "ok": true,
+    "detail": "영상 ID dQw4w9WgXcQ, 시작 30s, API 요청 1건"
+  },
+  {
+    "test": "재생",
+    "ok": true,
+    "detail": "위치 30.61s"
+  },
+  {
+    "test": "배속 변경 (0.75×)",
+    "ok": true,
+    "detail": "0.75"
+  },
+  {
+    "test": "A-B 반복",
+    "ok": true,
+    "detail": "4초 후 위치 41.12s (구간 40~42s), 되감기 6회"
+  },
+  {
+    "test": "탭 템포 (0.5초 간격 → 120)",
+    "ok": true,
+    "detail": "119.9 BPM"
+  },
+  {
+    "test": "YouTube 클릭 동기화 1× (가짜 플레이어, 위치 보고 지터 ±15ms)",
+    "ok": true,
+    "detail": "클릭 10개 · 평균 1.0ms · 최대 3.5ms"
+  },
+  {
+    "test": "YouTube 클릭 동기화 0.75× (가짜 플레이어, 위치 보고 지터 ±15ms)",
+    "ok": true,
+    "detail": "클릭 7개 · 평균 -0.4ms · 최대 4.9ms"
+  },
+  {
+    "test": "YouTube 클릭 동기화 0.5× (가짜 플레이어, 위치 보고 지터 ±15ms)",
+    "ok": true,
+    "detail": "클릭 5개 · 평균 -3.3ms · 최대 13.1ms"
+  },
+  {
+    "test": "YouTube 클릭 동기화 1.5× (가짜 플레이어, 위치 보고 지터 ±15ms)",
+    "ok": true,
+    "detail": "클릭 15개 · 평균 -0.9ms · 최대 2.2ms"
+  },
+  {
+    "test": "저장 목록 유지 (재실행 후)",
+    "ok": true,
+    "detail": "100 BPM (직접 입력) · 이어듣기 01:03 · 메모"
+  },
+  {
+    "test": "콘솔 오류 없음",
+    "ok": true,
+    "detail": "없음"
+  },
+  {
+    "test": "모바일 390px 가로 넘침 없음",
+    "ok": true,
+    "detail": "확인"
+  }
+]

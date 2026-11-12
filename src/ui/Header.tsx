@@ -1,10 +1,11 @@
 import { cancelAnalysis, openFiles, runAnalysis, setState, updateSettings, useApp, type Tab } from '../store/app'
-import { IFolder, IGear, IGuitar, IList, IMoon, IOpen, IReport, ISpark, ISun, IWave } from './icons'
+import { IFolder, IGear, IGuitar, IList, IMoon, IOpen, IReport, ISpark, ISun, IWave, IYouTube } from './icons'
 
 export const TABS: [Tab, string, (p: { size?: number }) => React.ReactElement][] = [
   ['player', '플레이어', IWave],
   ['copy', '카피 모드', IGuitar],
   ['report', '분석 리포트', IReport],
+  ['youtube', 'YouTube', IYouTube],
   ['library', '라이브러리', IList],
   ['settings', '설정', IGear],
 ]
@@ -44,7 +45,7 @@ export function Header() {
 export function MobileTabs() {
   const tab = useApp((s) => s.tab)
   return (
-    <nav className="md:hidden grid grid-cols-5 border-t border-line/60 bg-panel/95">
+    <nav className="md:hidden grid grid-cols-6 border-t border-line/60 bg-panel/95">
       {TABS.map(([t, l, I]) => (
         <button key={t} className={`flex flex-col items-center gap-0.5 py-1.5 text-[10px] ${tab === t ? 'text-accent' : 'text-mute'}`} onClick={() => setState({ tab: t })}><I size={20} />{l}</button>
       ))}

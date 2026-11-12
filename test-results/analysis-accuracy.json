@@ -13,7 +13,7 @@
     "key": "G Major",
     "chordRoot": 99.8,
     "chordFull": 99.8,
-    "ms": 1135
+    "ms": 1025
   },
   {
     "name": "ballad_92.5_Am",
@@ -29,7 +29,7 @@
     "key": "A Minor",
     "chordRoot": 99.9,
     "chordFull": 99.9,
-    "ms": 961
+    "ms": 755
   },
   {
     "name": "waltz_150_C",
@@ -45,7 +45,7 @@
     "key": "C Major",
     "chordRoot": 99.8,
     "chordFull": 99.8,
-    "ms": 986
+    "ms": 734
   },
   {
     "name": "slash_76_D",
@@ -61,7 +61,7 @@
     "key": "D Major",
     "chordRoot": 100,
     "chordFull": 100,
-    "ms": 1379
+    "ms": 1302
   },
   {
     "name": "fast_174_Em",
@@ -77,7 +77,7 @@
     "key": "E Minor",
     "chordRoot": 99.9,
     "chordFull": 99.9,
-    "ms": 821
+    "ms": 929
   },
   {
     "name": "jazzish_110_F",
@@ -93,7 +93,7 @@
     "key": "F Major",
     "chordRoot": 99.9,
     "chordFull": 99.9,
-    "ms": 937
+    "ms": 989
   },
   {
     "name": "halfbar_100_A",
@@ -109,7 +109,7 @@
     "key": "A Major",
     "chordRoot": 99.6,
     "chordFull": 99.6,
-    "ms": 970
+    "ms": 1141
   },
   {
     "name": "tempo_change_100to112_C",
@@ -125,7 +125,7 @@
     "key": "C Major",
     "chordRoot": 99.9,
     "chordFull": 99.9,
-    "ms": 1128
+    "ms": 896
   },
   {
     "name": "real_pop_120_G_detune+35_melody_noise",
@@ -141,7 +141,7 @@
     "key": "G Major",
     "chordRoot": 99.8,
     "chordFull": 99.8,
-    "ms": 826
+    "ms": 827
   },
   {
     "name": "real_ballad_92.5_Am_detune-20_melody",
@@ -157,7 +157,7 @@
     "key": "A Minor",
     "chordRoot": 99.7,
     "chordFull": 99.7,
-    "ms": 822
+    "ms": 825
   },
   {
     "name": "real_jazz_110_F_melody_noise",
@@ -173,7 +173,7 @@
     "key": "F Major",
     "chordRoot": 99.6,
     "chordFull": 96.5,
-    "ms": 987
+    "ms": 1120
   },
   {
     "name": "real_slash_76_D_A432_melody",
@@ -189,6 +189,6 @@
     "key": "D Major",
     "chordRoot": 99.8,
     "chordFull": 90.5,
-    "ms": 1336
+    "ms": 1206
   }
 ]
