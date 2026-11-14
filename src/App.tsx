@@ -9,7 +9,7 @@ import { CopyView } from './ui/CopyView'
 import { ReportView } from './ui/ReportView'
 import { LibraryView } from './ui/LibraryView'
 import { SettingsView } from './ui/SettingsView'
-import { isAudioName } from './platform/files'
+import { isAudioName, isTauri, tauriLoadPaths } from './platform/files'
 
 export default function App() {
   const tab = useApp((s) => s.tab)
@@ -46,6 +46,24 @@ export default function App() {
     window.addEventListener('pagehide', onHide)
     document.addEventListener('visibilitychange', onHide)
     return () => { window.removeEventListener('keydown', onKey); window.removeEventListener('pagehide', onHide); document.removeEventListener('visibilitychange', onHide) }
+  }, [])
+
+  // 데스크톱(Tauri): 운영체제 끌어다 놓기 → 파일 경로를 받아 저장(재실행 후에도 같은 경로에서 다시 열림)
+  useEffect(() => {
+    if (!isTauri()) return
+    let un: (() => void) | undefined
+    import('@tauri-apps/api/webview').then(({ getCurrentWebview }) =>
+      getCurrentWebview().onDragDropEvent(async (ev) => {
+        const p = ev.payload
+        if (p.type === 'enter' || p.type === 'over') setDragOver(true)
+        else if (p.type === 'leave') setDragOver(false)
+        else if (p.type === 'drop') {
+          setDragOver(false)
+          const picked = await tauriLoadPaths(p.paths)
+          if (picked.length) await addFiles(picked, true)
+        }
+      })).then((f) => { un = f }).catch(() => {})
+    return () => un?.()
   }, [])
 
   const onDrop = async (e: React.DragEvent) => {

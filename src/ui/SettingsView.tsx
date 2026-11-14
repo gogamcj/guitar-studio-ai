@@ -107,7 +107,7 @@ export function SettingsView() {
       <section className="card px-4">
         <h2 className="pt-3 label">데이터 (이 기기에만 저장)</h2>
         <Row label="저장 위치" hint={isTauri() ? '앱 데이터 폴더 (WebView 로컬 저장소)' : '브라우저 로컬 저장소 (IndexedDB) · 서버 전송 없음'}><span className="text-xs text-mute">{storage}</span></Row>
-        <Row label="음원 사본 보관" hint="켜면 불러온 음원을 이 기기 저장소에 복사해 두어, 앱을 다시 열 때 파일을 다시 선택하지 않아도 됩니다. (원본은 변경되지 않음, 모바일 권장)">
+        <Row label="음원 사본 보관" hint={isTauri() ? "데스크톱 앱은 파일 경로로 다시 열기 때문에 보통 필요 없습니다. 경로로 다시 열 수 없는 파일은 자동으로 사본을 보관합니다." : "켜면 불러온 음원을 이 기기 저장소에 복사해 두어, 앱을 다시 열 때 파일을 다시 선택하지 않아도 됩니다. 꺼도 끌어다 놓은 파일처럼 다시 열 방법이 없는 파일은 사본을 보관합니다. (원본은 변경되지 않음)"}>
           <button className={`chip ${s.keepCopies ? 'chip-on' : ''}`} onClick={() => updateSettings({ keepCopies: !s.keepCopies })}>{s.keepCopies ? '켜짐' : '꺼짐'}</button>
         </Row>
         <Row label="백업 / 복원" hint="분석 결과·코드 수정·구간·메모·설정을 파일로 내보내 USB 등으로 다른 기기에 옮길 수 있습니다. (음원 파일은 포함되지 않음)">

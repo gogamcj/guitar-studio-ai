@@ -91,28 +91,35 @@ export async function fileFromHandle(h: FileSystemFileHandle): Promise<File | nu
 /** 데스크톱(Tauri): 네이티브 대화상자 & 경로 기반 읽기 */
 export async function tauriPick(directory: boolean): Promise<PickedFile[]> {
   const { open } = await import('@tauri-apps/plugin-dialog')
-  const { readFile, readDir } = await import('@tauri-apps/plugin-fs')
   const sel = await open({ multiple: !directory, directory, filters: directory ? undefined : [{ name: 'Audio', extensions: AUDIO_EXT }] })
   if (!sel) return []
+  return tauriLoadPaths((Array.isArray(sel) ? sel : [sel]) as string[])
+}
+
+/** 데스크톱(Tauri): 경로(파일 또는 폴더) 목록 → 음악 파일. 끌어다 놓기와 열기 대화상자에서 함께 사용.
+ *  경로를 함께 저장하므로 앱을 다시 실행해도 같은 경로에서 다시 읽을 수 있다. */
+export async function tauriLoadPaths(input: string[]): Promise<PickedFile[]> {
+  const { readDir, stat } = await import('@tauri-apps/plugin-fs')
   const paths: { path: string; folder?: string }[] = []
-  if (directory) {
-    const root = sel as string
-    const walk = async (dir: string) => {
-      for (const e of await readDir(dir)) {
-        const p = `${dir}/${e.name}`
-        if (e.isDirectory) await walk(p)
-        else if (isAudioName(e.name)) paths.push({ path: p, folder: dir })
-      }
+  const parent = (p: string) => p.replace(/[\\/][^\\/]+$/, '')
+  const walk = async (dir: string) => {
+    const sep = dir.includes('\\') ? '\\' : '/'
+    const entries = await readDir(dir).catch(() => [])
+    for (const e of entries.sort((a, b) => a.name.localeCompare(b.name))) {
+      const p = dir.replace(/[\\/]+$/, '') + sep + e.name
+      if (e.isDirectory) await walk(p)
+      else if (isAudioName(e.name)) paths.push({ path: p, folder: dir })
     }
-    await walk(root)
-  } else {
-    for (const p of (Array.isArray(sel) ? sel : [sel]) as string[]) paths.push({ path: p, folder: p.replace(/[\\/][^\\/]+$/, '') })
+  }
+  for (const p of input) {
+    const st = await stat(p).catch(() => null)
+    if (st?.isDirectory) await walk(p)
+    else if (isAudioName(p)) paths.push({ path: p, folder: parent(p) })
   }
   const out: PickedFile[] = []
   for (const p of paths) {
-    const data = await readFile(p.path)
-    const name = p.path.split(/[\\/]/).pop()!
-    out.push({ file: new File([data], name), path: p.path, folder: p.folder })
+    const file = await tauriRead(p.path)
+    if (file) out.push({ file, path: p.path, folder: p.folder })
   }
   return out
 }
