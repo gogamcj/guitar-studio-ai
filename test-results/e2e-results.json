@@ -2,47 +2,47 @@
   {
     "test": "load+analyze pop_120_G.mp3",
     "ok": true,
-    "detail": "분석 1238ms · BPM 120 (정답 120) · 4박 (정답 4) · Key G major (정답 G major) · 코드 G D Em C G D Em C (정답 G D Em C)"
+    "detail": "분석 1211ms · BPM 120 (정답 120) · 4박 (정답 4) · Key G major (정답 G major) · 코드 G D Em C G D Em C (정답 G D Em C)"
   },
   {
     "test": "load+analyze ballad_92.5_Am.mp3",
     "ok": true,
-    "detail": "분석 933ms · BPM 92.5 (정답 92.5) · 4박 (정답 4) · Key A minor (정답 A minor) · 코드 Am F C G Am F C G (정답 Am F C G)"
+    "detail": "분석 875ms · BPM 92.5 (정답 92.5) · 4박 (정답 4) · Key A minor (정답 A minor) · 코드 Am F C G Am F C G (정답 Am F C G)"
   },
   {
     "test": "load+analyze waltz_150_C.flac",
     "ok": true,
-    "detail": "분석 686ms · BPM 150 (정답 150) · 3박 (정답 3) · Key C major (정답 C major) · 코드 C G7 Am F G C G7 Am (정답 C C G7 G7 Am Am F G)"
+    "detail": "분석 713ms · BPM 150 (정답 150) · 3박 (정답 3) · Key C major (정답 C major) · 코드 C G7 Am F G C G7 Am (정답 C C G7 G7 Am Am F G)"
   },
   {
     "test": "load+analyze slash_76_D.m4a",
     "ok": true,
-    "detail": "분석 1348ms · BPM 76 (정답 76) · 4박 (정답 4) · Key D major (정답 D major) · 코드 D A/C# Bm G Em7 A7 D A/C# (정답 D A/C# Bm G Em7 A7 D D)"
+    "detail": "분석 1431ms · BPM 76 (정답 76) · 4박 (정답 4) · Key D major (정답 D major) · 코드 D A/C# Bm G Em7 A7 D A/C# (정답 D A/C# Bm G Em7 A7 D D)"
   },
   {
     "test": "load+analyze fast_174_Em.ogg",
     "ok": true,
-    "detail": "분석 954ms · BPM 174 (정답 174) · 4박 (정답 4) · Key E minor (정답 E minor) · 코드 Em C G D Em C G D (정답 Em C G D)"
+    "detail": "분석 964ms · BPM 174 (정답 174) · 4박 (정답 4) · Key E minor (정답 E minor) · 코드 Em C G D Em C G D (정답 Em C G D)"
   },
   {
     "test": "load+analyze jazzish_110_F.aac",
     "ok": true,
-    "detail": "분석 982ms · BPM 110 (정답 110) · 4박 (정답 4) · Key F major (정답 F major) · 코드 Fmaj7 Dm7 Gm7 C7 Am7 Dm7 Bbmaj7 C7 (정답 Fmaj7 Dm7 Gm7 C7 Am7 Dm7 Bbmaj7 C7)"
+    "detail": "분석 949ms · BPM 110 (정답 110) · 4박 (정답 4) · Key F major (정답 F major) · 코드 Fmaj7 Dm7 Gm7 C7 Am7 Dm7 Bbmaj7 C7 (정답 Fmaj7 Dm7 Gm7 C7 Am7 Dm7 Bbmaj7 C7)"
   },
   {
     "test": "load+analyze halfbar_100_A.mp3",
     "ok": true,
-    "detail": "분석 1080ms · BPM 100 (정답 100) · 4박 (정답 4) · Key A major (정답 A major) · 코드 A E F#m D A E D E (정답 A|E F#m|D A|E D|E)"
+    "detail": "분석 1054ms · BPM 100 (정답 100) · 4박 (정답 4) · Key A major (정답 A major) · 코드 A E F#m D A E D E (정답 A|E F#m|D A|E D|E)"
   },
   {
     "test": "load+analyze tempo_change_100to112_C.mp3",
     "ok": true,
-    "detail": "분석 953ms · BPM 112 (정답 variable) · 4박 (정답 4) · Key C major (정답 C major) · 코드 C Am F G C Am F G (정답 C Am F G)"
+    "detail": "분석 1106ms · BPM 112 (정답 variable) · 4박 (정답 4) · Key C major (정답 C major) · 코드 C Am F G C Am F G (정답 C Am F G)"
   },
   {
     "test": "재생/일시정지",
     "ok": true,
-    "detail": "10초에서 2초 재생 후 위치 11.97s, 일시정지 후 변화 0.000s"
+    "detail": "10초에서 2초 재생 후 위치 11.96s, 일시정지 후 변화 0.000s"
   },
   {
     "test": "클릭 싱크 rate=1 pitch=0",
@@ -137,7 +137,7 @@
   {
     "test": "A-B 무한 반복",
     "ok": true,
-    "detail": "6초 동안 위치 범위 2.16~3.96s"
+    "detail": "6초 동안 위치 범위 1.97~3.77s"
   },
   {
     "test": "A-B 반복 횟수(2회)",
@@ -156,13 +156,13 @@
   },
   {
     "test": "악기 강조: 베이스 버튼 → 저음 비중 증가",
-    "ok": false,
-    "detail": "저역 비중 52.5% → 68.9% (저역/나머지 비 3.0dB)"
+    "ok": true,
+    "detail": "저역 비중 52.5% → 68.8% (저역/나머지 비 3.0dB)"
   },
   {
     "test": "악기 강조: 드럼 버튼 → 고음(심벌) 비중 증가, 저음은 늘지 않음",
     "ok": true,
-    "detail": "고역 비중 3.49% → 8.12% (3.7dB), 저역 52.5% → 36.1%"
+    "detail": "고역 비중 3.49% → 8.12% (3.7dB), 저역 52.5% → 36.2%"
   },
   {
     "test": "악기 강조: 보컬 버튼 → 저음 감소, 중음 유지",
@@ -172,7 +172,7 @@
   {
     "test": "악기 강조: 원음 버튼 → 원래대로",
     "ok": true,
-    "detail": "저역 52.4%, 음량 비 0.999"
+    "detail": "저역 52.5%, 음량 비 0.999"
   },
   {
     "test": "mobile 화면 대응",
