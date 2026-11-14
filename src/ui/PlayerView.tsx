@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { isTauri } from '../platform/files'
 import { fmtTime } from '../lib/music'
 import { addMarker, deleteLoopRegion, deleteMarker, relinkFile, runAnalysis, saveCurrentLoop, seek, setLoop, snapLoopToBeats, updateLoopRegion, updateTrack, useApp } from '../store/app'
 import { ChordLane, ChordTable } from './Chords'
@@ -123,7 +124,9 @@ export function NeedsFile() {
   return (
     <div className="card p-4 border-accent/50">
       <div className="font-medium">"{t.name}" 파일을 다시 선택해 주세요</div>
-      <p className="text-sm text-mute mt-1">개인정보 보호를 위해 브라우저는 앱을 다시 열면 파일 접근 권한을 유지하지 않습니다. 같은 파일을 선택하면 저장된 분석 결과·구간·메모가 그대로 복원됩니다. (설정 → "음원 사본 보관"을 켜면 다음부터는 자동으로 열립니다)</p>
+      <p className="text-sm text-mute mt-1">{isTauri()
+        ? (t.path ? `저장된 위치(${t.path})에서 파일을 찾을 수 없습니다. 파일을 옮기거나 이름을 바꾼 경우 다시 선택해 주세요.` : '이 곡은 이전 버전에서 위치 정보 없이 추가되어 다시 열 수 없습니다. 한 번만 다시 선택하면 다음부터는 자동으로 열립니다.')
+        : '개인정보 보호를 위해 브라우저는 앱을 다시 열면 파일 접근 권한을 유지하지 않습니다. 같은 파일을 선택하면 다음부터는 자동으로 열립니다.'} 저장된 분석 결과·구간·메모는 그대로 복원됩니다.</p>
       <button className="btn btn-accent mt-3" onClick={() => relinkFile(t)}>파일 선택</button>
     </div>
   )

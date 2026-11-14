@@ -102,7 +102,14 @@ export function ChordTable() {
   const rows = useMemo(() => (a ? a.chords.map((c, i) => ({ c, i, bar: barAt(a, c.start) })) : []), [a])
   useEffect(() => {
     if (!engine.playing) return
-    rowRef.current?.querySelector(`[data-i="${idx}"]`)?.scrollIntoView({ block: 'nearest' })
+    // 코드 표 안에서만 스크롤 (scrollIntoView 는 페이지 전체를 움직여 파형이 화면 위로 밀려남)
+    const box = rowRef.current
+    const row = box?.querySelector<HTMLElement>(`[data-i="${idx}"]`)
+    if (!box || !row) return
+    const head = 28 // 고정된 표 머리글 높이
+    const top = row.offsetTop
+    if (top < box.scrollTop + head) box.scrollTop = top - head
+    else if (top + row.offsetHeight > box.scrollTop + box.clientHeight) box.scrollTop = top + row.offsetHeight - box.clientHeight
   }, [idx])
   if (!a) return null
   const copy = async () => {
@@ -120,7 +127,7 @@ export function ChordTable() {
           <button className="btn btn-ghost h-7 px-2 text-xs" onClick={() => download(`${base}-chords.csv`, chordProgressionText(a, tr, 'csv'), 'text/csv')}>CSV</button>
         </div>
       </div>
-      <div ref={rowRef} className="overflow-y-auto scrollbar-thin max-h-72 -mx-1">
+      <div ref={rowRef} className="relative overflow-y-auto scrollbar-thin max-h-72 -mx-1">
         <div className="grid grid-cols-[4.5rem_3rem_1fr_4rem] text-[11px] text-mute px-2 py-1 sticky top-0 bg-panel">
           <span>시간</span><span>마디</span><span>코드</span><span className="text-right">신뢰도</span>
         </div>

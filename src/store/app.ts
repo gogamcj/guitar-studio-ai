@@ -185,12 +185,14 @@ export async function addFiles(picked: PickedFile[], playFirst: boolean) {
     files.set(id, p.file)
     if (p.handle) { handles.set(id, p.handle); db.put('handles', p.handle, id).catch(() => {}) }
     let t = tracks.find((x) => x.id === id)
+    if (t && p.path && t.path !== p.path) { t.path = p.path; saveTrack(t).catch(() => {}) }
     if (!t) {
       t = { id, name: p.file.name, size: p.file.size, lastModified: p.file.lastModified, folder: p.folder, path: p.path, addedAt: Date.now() }
       tracks.push(t)
       saveTrack(t).catch(() => {})
     }
-    if (st.settings.keepCopies && !p.path) db.put('blobs', p.file, id).catch(() => toast('저장 공간이 부족하여 음원 사본을 보관하지 못했습니다.'))
+    // 경로(데스크톱)나 파일 핸들(Chrome/Edge)로 다시 열 수 없는 파일(끌어다 놓기 등)은 항상 사본을 보관 → 재실행 후에도 재생 가능
+    if (!p.path && (st.settings.keepCopies || !p.handle)) db.put('blobs', p.file, id).catch(() => toast('저장 공간이 부족하여 음원 사본을 보관하지 못했습니다.'))
     if (!playlist.includes(id)) playlist.push(id)
     if (!firstId) firstId = id
   }
@@ -212,15 +214,20 @@ async function obtainFile(t: TrackMeta): Promise<File | null> {
 
 /** 재선택한 파일이 원래 곡과 동일한지 확인 후 연결 */
 export async function relinkFile(t: TrackMeta) {
-  const picked = await pickWithInput({ multiple: false })
+  const picked = isTauri() ? (await tauriPick(false)).slice(0, 1) : await pickWithInput({ multiple: false })
   if (!picked.length) return
-  const id = trackIdFor(picked[0].file)
-  if (id !== t.id) {
+  const f = picked[0].file
+  // 같은 파일인지: ID 일치, 또는 이름·크기가 같으면 같은 곡으로 봄(데스크톱 수정 시각 차이 허용)
+  const same = trackIdFor(f) === t.id || (f.name === t.name && f.size === t.size)
+  const id = t.id
+  if (!same) {
     // 다른 파일 → 새 곡으로 추가
     await addFiles(picked, true)
     return
   }
-  files.set(id, picked[0].file)
+  files.set(id, f)
+  if (picked[0].path) { t.path = picked[0].path; saveTrack(t).catch(() => {}) }
+  else if (!picked[0].handle) db.put('blobs', f, id).catch(() => {})
   setState({ needsFile: null })
   await selectTrack(id, { autoplay: false, restore: true })
 }
